@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HCBP</title>
+    <script type="importmap"></script>
+    <!-- Favicon & PWA -->
+    <link rel="apple-touch-icon" sizes="57x57" href="~/assets/favicon/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="~/assets/favicon/apple-icon-60x60.png" />
+    <link rel="manifest" href="~/assets/favicon/manifest.json" />
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- AG Grid (Light + Dark) -->
+    <link rel="stylesheet" href="~/lib/ag-grid-community/styles/ag-grid/ag-grid.css" />
+    <link rel="stylesheet" href="~/lib/ag-grid-community/styles/ag-theme-alpine/ag-theme-alpine.css" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+    <!-- front -->
+
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/fonts.min.css" />
+    <!-- CoreUI + Simplebar -->
+    <link rel="stylesheet" href="~/lib/simplebar/css/simplebar.css" />
+    <link rel="stylesheet" href="~/css/vendors/simplebar.css" />
+
+    <!-- App CSS -->
+    <link href="~/lib/adcoreui/coreui/css/coreui.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/examples.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+</head>
+
+<body>
+    <div class="sidebar sidebar-fixed border-end" id="sidebar">
+        <!--sidebar-->
+        <div class="sidebar-header border-bottom">
+            <div class="sidebar-brand d-flex align-items-center gap-1">
+                <img src="~/assets/brand/logo_bjc_bigc.svg" width="88" height="32" alt="BJC BigC" />
+                <span class="fw-semibold line-high">HC Budget Planning</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                    <svg class="nav-icon">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-speedometer"></use>
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="nav-title">Management</li>
+
+            <li class="nav-item">
+                <!-- FIX: ระบุ controller/action ให้ชัด -->
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Budget">
+                    <svg class="nav-icon">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-notes"></use>
+                    </svg>
+                    Budget
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="BudgetPlanning">
+                    <svg class="nav-icon">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-spreadsheet"></use>
+                    </svg>
+                    Budget (Batch Entry)
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
+                    <svg class="nav-icon">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-pencil"></use>
+                    </svg>
+                    Privacy
+                </a>
+            </li>
+
+            <li class="nav-group">
+                <a class="nav-link nav-group-toggle" href="#">
+                    <svg class="nav-icon">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-puzzle"></use>
+                    </svg>
+                    Base
+                </a>
+                <ul class="nav-group-items compact">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Accordion
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer border-top d-none d-md-flex">
+            <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+        </div>
+    </div>
+
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <header class="header header-sticky p-0">
+            <div class="container-fluid border-bottom px-4">
+                <button class="header-toggler" type="button"
+                        onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"
+                        style="margin-inline-start: -14px;">
+                    <svg class="icon icon-lg">
+                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-menu"></use>
+                    </svg>
+                </button>
+
+                <ul class="header-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-bell"></use>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="header-nav">
+                    <li class="nav-item py-1">
+                        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+                    </li>
+
+                    <!-- Theme Switcher -->
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+                                aria-expanded="false" data-coreui-toggle="dropdown">
+                            <svg class="icon icon-lg theme-icon-active">
+                                <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-contrast"></use>
+                            </svg>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem;">
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center active" type="button" data-coreui-theme-value="light">
+                                    <svg class="icon icon-lg me-3">
+                                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-sun"></use>
+                                    </svg>
+                                    Light
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button" data-coreui-theme-value="dark">
+                                    <svg class="icon icon-lg me-3">
+                                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-moon"></use>
+                                    </svg>
+                                    Dark
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button"
+                                        data-coreui-theme-value="auto">
+                                    <svg class="icon icon-lg me-3">
+                                        <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-contrast"></use>
+                                    </svg>
+                                    Auto
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item py-1">
+                        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+                    </li>
+
+                    <!-- User -->
+                    <li class="nav-item dropdown">
+                        <button class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
+                          <div class="avatar avatar-md">
+                            <img class="avatar-img" src="~/assets/img/avatars/avatar5.jpg" alt="user@email.com" />
+                          </div>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end pt-0">
+                            <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2">
+                                Account
+                            </div>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-bell"></use>
+                                </svg> Updates <span class="badge badge-sm bg-info ms-2">42</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-envelope-open"></use>
+                                </svg> Messages <span class="badge badge-sm bg-success ms-2">42</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-task"></use>
+                                </svg> Tasks <span class="badge badge-sm bg-danger ms-2">42</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-comment-square"></use>
+                                </svg> Comments <span class="badge badge-sm bg-warning ms-2">42</span>
+                            </a>
+
+                            <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold my-2">
+                                <div class="fw-semibold">Settings</div>
+                            </div>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-user"></use>
+                                </svg> Profile
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-settings"></use>
+                                </svg> Settings
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-credit-card"></use>
+                                </svg> Payments <span class="badge badge-sm bg-secondary ms-2">42</span>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-file"></use>
+                                </svg> Projects <span class="badge badge-sm bg-primary ms-2">42</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-lock-locked"></use>
+                                </svg> Lock Account
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/lib/adcoreui/icons/svg/free.svg#cil-account-logout"></use>
+                                </svg> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-fluid px-4">
+                <nav aria-label="breadcrumb"></nav>
+            </div>
+        </header>
+
+        <div class="body flex-grow-1 container-core-bg">
+            <div class="container-lg p-4">
+                @RenderBody()
+            </div>
+        </div>
+
+        <footer class="footer px-4">
+            <div>
+                <a href="https://coreui.io">CoreUI</a>
+                <a href="https://coreui.io/product/free-bootstrap-admin-template/">Bootstrap Admin Template</a> &copy; 2025
+                creativeLabs.
+            </div>
+            <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/bootstrap/docs/">CoreUI UI Components</a></div>
+        </footer>
+    </div>
+
+    <!-- App Config -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/config.js"></script>
+    <script src="~/js/color-modes.js" asp-append-version="true"></script>
+
+    <!-- Vendor JS -->
+    <script src="~/lib/adcoreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      if (!window.bootstrap && typeof bootstrap !== 'undefined') {
+        window.bootstrap = bootstrap;
+      }
+    </script>
+    <!--<script src="~/lib/adcoreui/coreui/js/pro/coreui.bundle.min.js"></script>-->
+    <script src="~/lib/simplebar/js/simplebar.min.js"></script>
+    <script src="~/lib/select2/dist/js/select2.min.js"></script>
+
+    <!-- AG Grid -->
+    <script src="~/lib/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+    <!-- XLSX (ถ้าต้องใช้ Export Excel ฝั่ง client) -->
+    <script src="~/lib/xlsx/dist/xlsx.full.min.js"></script>
+
+    <!-- Chart.js + CoreUI utils -->
+    <script src="~/lib/adcoreui/utils/js/index.js"></script>
+
+    <!-- UX: header shadow on scroll -->
+    <script>
+        (function () {
+          const header = document.querySelector('header.header');
+          document.addEventListener('scroll', () => {
+            if (header) header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+          });
+        })();
+        //console.log(typeof $);
+        //console.log(typeof $.fn.select2);
+    </script>
+
+    <!-- Sync CoreUI Theme -> AG Grid Theme -->
+    <script>
+        (function () {
+          // สลับธีมให้ทุก grid: ag-theme-alpine <-> ag-theme-alpine-dark
+          function applyAgGridTheme() {
+            const theme = document.documentElement.getAttribute('data-coreui-theme') || 'auto';
+            const isDark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.querySelectorAll('.ag-theme-alpine, .ag-theme-alpine-dark').forEach(el => {
+              if (isDark) {
+                el.classList.remove('ag-theme-alpine');
+                el.classList.add('ag-theme-alpine-dark');
+              } else {
+                el.classList.remove('ag-theme-alpine-dark');
+                el.classList.add('ag-theme-alpine');
+              }
+            });
+          }
+
+          // เรียกครั้งแรก
+          applyAgGridTheme();
+
+          // เมื่อผู้ใช้กดปุ่มสลับธีมของ CoreUI
+          document.addEventListener('click', function (e) {
+            const btn = e.target.closest('[data-coreui-theme-value]');
+            if (!btn) return;
+            // CoreUI จะจัดการ data-coreui-theme ให้เองผ่าน color-modes.js
+            // รอสลับค่าแล้วค่อย sync ให้กริด
+            setTimeout(applyAgGridTheme, 0);
+          });
+
+          // ถ้าเป็น Auto และผู้ใช้เปลี่ยน OS theme
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyAgGridTheme);
+        })();
+    </script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+      // Ensure bootstrap is available globally for JS
+      window.bootstrap = window.bootstrap || {};
+      try {
+        if (typeof bootstrap === 'undefined' && window.bootstrap) {
+          window.bootstrap = window.bootstrap;
+        }
+      } catch (e) {
+        // fallback: try to get from window
+        window.bootstrap = window.bootstrap || {};
+      }
+    </script>
+</body>
+
+</html>
